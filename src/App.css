@@ -1,0 +1,77 @@
+.app {
+  text-align: center;
+  padding: 20px;
+}
+
+.comic-panels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.comic-panel {
+  margin-bottom: 20px;
+  width: 48%;
+}
+
+textarea,
+input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.comic-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+img {
+  max-width: 100%;
+  margin: 10px;
+}
+
+/* src/App.css */
+
+.speech-bubble {
+  position: absolute;
+  background-color: white;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 2px solid #000;
+  max-width: 80%;
+  text-align: center;
+  z-index: 1;
+}
+
+.comic-panel {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+img {
+  max-width: 100%;
+  margin: 10px;
+}
+
