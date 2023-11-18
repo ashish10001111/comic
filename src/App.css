@@ -39,6 +39,7 @@ button:hover {
   margin-top: 10px;
 }
 
+
 .comic-strip {
   display: flex;
   flex-wrap: wrap;
@@ -73,5 +74,68 @@ img {
 img {
   max-width: 100%;
   margin: 10px;
+}
+
+
+
+.app {
+  text-align: center;
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* ... Rest of your styles ... */
+/* App.css */
+
+.dark-mode-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--text-light);
+}
+
+/* App.css */
+
+.comic-panels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.comic-panel {
+  margin-bottom: 20px;
+  width: 48%;
+}
+
+textarea,
+input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .comic-panels {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .comic-panel {
+    width: 100%;
+  }
 }
 

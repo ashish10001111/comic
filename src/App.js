@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import './App.css';
-import Loader from './Loader'; // Import the Loader component
+import Loader from './Loader';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const API_URL = "https://xdwvg9no7pefghrn.us-east-1.aws.endpoints.huggingface.cloud";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
   const [comicPanels, setComicPanels] = useState(Array.from({ length: 10 }, () => ({ text: '', annotation: '' })));
   const [comicImages, setComicImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,9 +24,8 @@ function App() {
   const generateComic = async () => {
     try {
       setLoading(true);
-      const imageDataArray = [];
 
-      for (const panel of comicPanels) {
+      const imageDataArray = await Promise.all(comicPanels.map(async (panel, index) => {
         const panelTextValue = panel.text.trim();
         const panelAnnotationValue = panel.annotation.trim();
 
@@ -44,11 +46,12 @@ function App() {
           }
 
           const imageData = await response.blob();
-          imageDataArray.push({ image: imageData, annotation: panelAnnotationValue });
+          return { image: imageData, annotation: panelAnnotationValue };
         }
-      }
+        return null; // Return null for panels with empty text
+      }));
 
-      setComicImages(imageDataArray);
+      setComicImages(imageDataArray.filter(Boolean)); // Filter out null values
       setError('');
     } catch (error) {
       console.error('Error generating image:', error);
@@ -58,8 +61,15 @@ function App() {
     }
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="app">
+    <div className={`app ${darkMode ? 'dark-mode' : ''}`}>
+      <div className="dark-mode-toggle" onClick={toggleDarkMode}>
+        <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+      </div>
       <h1>Comic Strip Generator</h1>
       <div className="comic-panels">
         {comicPanels.map((panel, index) => (
@@ -79,7 +89,7 @@ function App() {
         ))}
       </div>
       <button onClick={generateComic}>Generate Comic</button>
-      {loading && <Loader />} {/* Use the Loader component when loading */}
+      {loading && <Loader />}
       {error && <div className="error">{error}</div>}
       <div className="comic-strip">
         {comicImages.map((panel, index) => (
