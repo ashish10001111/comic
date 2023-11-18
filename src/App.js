@@ -6,7 +6,7 @@ import Loader from './Loader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
-const API_URL = "https://xdwvg9no7pefghrn.us-east-1.aws.endpoints.huggingface.cloud";
+const LOREM_PICSUM_URL = "https://picsum.photos/500/300";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -14,6 +14,7 @@ function App() {
   const [comicImages, setComicImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showForm, setShowForm] = useState(true);
 
   const handleInputChange = (index, type, value) => {
     const newComicPanels = [...comicPanels];
@@ -30,23 +31,9 @@ function App() {
         const panelAnnotationValue = panel.annotation.trim();
 
         if (panelTextValue !== '') {
-          const data = { "inputs": `${panelTextValue}\n\n${panelAnnotationValue}` };
-          const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-              "Accept": "image/png",
-              "Authorization": "Bearer VknySbLLTUjbxXAXCjyfaFIPwUTCeRXbFSOjwRiCxsxFyhbnGjSFalPKrpvvDAaPVzWEevPljilLVDBiTzfIbWFdxOkYJxnOPoHhkkVGzAknaOulWggusSFewzpqsNWM",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data),
-          });
-
-          if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
-          }
-
-          const imageData = await response.blob();
-          return { image: imageData, annotation: panelAnnotationValue };
+          // Replace the API call with Lorem Picsum for development purposes
+          const imageUrl = LOREM_PICSUM_URL + `?seed=${index}`;
+          return { image: imageUrl, annotation: panelAnnotationValue };
         }
         return null; // Return null for panels with empty text
       }));
@@ -58,11 +45,18 @@ function App() {
       setError('Error generating comic. Please try again.');
     } finally {
       setLoading(false);
+      setShowForm(false); // Hide the form after generating images
     }
   };
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
+  };
+
+  const resetForm = () => {
+    setComicImages([]);
+    setError('');
+    setShowForm(true); // Show the form again
   };
 
   return (
@@ -71,36 +65,45 @@ function App() {
         <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
       </div>
       <h1>Comic Strip Generator</h1>
-      <div className="comic-panels">
-        {comicPanels.map((panel, index) => (
-          <div key={index} className="comic-panel">
-            <textarea
-              value={panel.text}
-              onChange={(e) => handleInputChange(index, 'text', e.target.value)}
-              placeholder="Enter text for panel"
-            />
-            <input
-              type="text"
-              value={panel.annotation}
-              onChange={(e) => handleInputChange(index, 'annotation', e.target.value)}
-              placeholder="Speech Bubble or Annotation"
-            />
+      {showForm && (
+        <>
+          <div className="comic-panels">
+            {comicPanels.map((panel, index) => (
+              <div key={index} className="comic-panel">
+                <textarea
+                  value={panel.text}
+                  onChange={(e) => handleInputChange(index, 'text', e.target.value)}
+                  placeholder="Enter text for panel"
+                />
+                <input
+                  type="text"
+                  value={panel.annotation}
+                  onChange={(e) => handleInputChange(index, 'annotation', e.target.value)}
+                  placeholder="Speech Bubble or Annotation"
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <button onClick={generateComic}>Generate Comic</button>
-      {loading && <Loader />}
-      {error && <div className="error">{error}</div>}
-      <div className="comic-strip">
-        {comicImages.map((panel, index) => (
-          <div key={index} className="comic-panel">
-            <div className="speech-bubble">
-              {panel.annotation}
-            </div>
-            <img src={URL.createObjectURL(panel.image)} alt={`Comic Panel ${index + 1}`} />
+          <button onClick={generateComic}>Generate Comic</button>
+          {loading && <Loader />}
+          {error && <div className="error">{error}</div>}
+        </>
+      )}
+      {!showForm && (
+        <>
+          <button onClick={resetForm}>Go Back to Form</button>
+          <div className="comic-strip">
+            {comicImages.map((panel, index) => (
+              <div key={index} className="comic-panel">
+                <div className="speech-bubble">
+                  {panel.annotation}
+                </div>
+                <img src={panel.image} alt={`Comic Panel ${index + 1}`} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 }

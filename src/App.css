@@ -23,7 +23,7 @@
 .comic-panels {
   /* display: flex; */
   text-align: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .comic-panel {
@@ -86,4 +86,44 @@ img {
   .comic-panel {
     width: 100%;
   }
+}
+
+
+/* App.css */
+
+.comic-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.comic-panel {
+  position: relative;
+  margin: 10px; /* Adjusted margin */
+}
+
+.comic-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.speech-bubble {
+  position: absolute;
+  background-color: white;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 2px solid #000;
+  max-width: 80%;
+  text-align: center;
+  z-index: 1;
+  bottom: 10px; /* Adjusted position */
+  left: 50%;
+  transform: translateX(-50%); /* Centering the speech bubble */
+}
+
+img {
+  max-width: 100%;
 }
