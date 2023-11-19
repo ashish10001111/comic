@@ -1,5 +1,3 @@
-// App.js
-
 import React, { useState } from 'react';
 import './App.css';
 import Loader from './Loader';
@@ -69,8 +67,8 @@ function App() {
         <>
           <div className="comic-panels">
             {comicPanels.map((panel, index) => (
-              <div key={index} className="comic-panel">
-                <textarea
+              <div key={index} className="comic-pane">
+                <input
                   value={panel.text}
                   onChange={(e) => handleInputChange(index, 'text', e.target.value)}
                   placeholder="Enter text for panel"

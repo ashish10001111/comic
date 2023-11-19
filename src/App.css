@@ -1,4 +1,7 @@
 /* App.css */
+body, #root, html, .app {
+  min-height: 100vh;
+}
 
 .app {
   text-align: center;
@@ -76,7 +79,7 @@ img {
   padding: 10px;
   font-size: 14px;
   border-radius: 10px;
-  border: 2px solid #000;
+  /* border: 2px solid #000; */
   max-width: 80%;
   text-align: center;
   z-index: 1;
@@ -92,15 +95,26 @@ img {
 /* App.css */
 
 .comic-strip {
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 20px; */
+  display: flex;
+  flex-wrap: wrap;
   margin-top: 20px;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: row;
 }
 
 .comic-panel {
+  flex: 0 0 clamp(180px, 20%, 220px);
+  box-sizing: border-box;
   position: relative;
-  margin: 10px; /* Adjusted margin */
+   /* margin: 10px;  Adjusted margin */
+   margin: 0;
+   height: 200px;
+   border: 2px solid white;
 }
 
 .comic-container {
@@ -114,16 +128,29 @@ img {
   background-color: white;
   padding: 10px;
   font-size: 14px;
-  border-radius: 10px;
-  border: 2px solid #000;
+  /* border-radius: 10px; */
+  /* border: 2px solid #000; */
   max-width: 80%;
   text-align: center;
   z-index: 1;
   bottom: 10px; /* Adjusted position */
   left: 50%;
   transform: translateX(-50%); /* Centering the speech bubble */
+  line-height: 1;
+  border-radius: 34px;
+  padding: 10px 20px;
+  border: 2px solid black;
+  border-radius: 15% 82% 0% 100% / 64% 50% 50% 36%;
+  box-shadow: 6px 3px 32px -6px rgba(0,0,0,0.5);
 }
 
 img {
   max-width: 100%;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: block;
+  border: 2px solid black;
+  display: block;
+  box-sizing: border-box;
 }
